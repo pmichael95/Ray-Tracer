@@ -3,9 +3,7 @@
 * [This project is still a Work in Progress!]
 * Programmed by Philip Michael
 */
-#include <iostream>
-#include <string>
-#include <exception>
+#include "CommonIncludes.h"
 
 using namespace std;
 
