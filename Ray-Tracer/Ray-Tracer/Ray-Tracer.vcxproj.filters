@@ -22,14 +22,14 @@
     <Filter Include="Source Files\Shapes">
       <UniqueIdentifier>{fea8e8c6-1622-48bc-9197-af34bb46bb7a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Fundamentals">
+      <UniqueIdentifier>{b9de5b86-0c64-4d61-a7a5-311818e02e15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Fundamentals">
+      <UniqueIdentifier>{e8567835-dc20-4571-ad40-70867757bd26}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Rays.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Geometry.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files\Driver</Filter>
     </ClCompile>
@@ -39,22 +39,40 @@
     <ClCompile Include="Triangle.cpp">
       <Filter>Source Files\Shapes</Filter>
     </ClCompile>
+    <ClCompile Include="Sphere.cpp">
+      <Filter>Source Files\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Rays.cpp">
+      <Filter>Source Files\Fundamentals</Filter>
+    </ClCompile>
+    <ClCompile Include="Geometry.cpp">
+      <Filter>Source Files\Fundamentals</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\Fundamentals</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonIncludes.h">
       <Filter>Resource Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Geometry.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Rays.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Triangle.h">
       <Filter>Header Files\Shapes</Filter>
     </ClInclude>
     <ClInclude Include="Plane.h">
       <Filter>Header Files\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Sphere.h">
+      <Filter>Header Files\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Rays.h">
+      <Filter>Header Files\Fundamentals</Filter>
+    </ClInclude>
+    <ClInclude Include="Geometry.h">
+      <Filter>Header Files\Fundamentals</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files\Fundamentals</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
