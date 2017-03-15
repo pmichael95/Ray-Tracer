@@ -69,8 +69,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Users\Philip\glm;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\Philip\glm;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\Philip\GitHub\Ray-Tracer\CIMG;C:\Users\Philip\glm;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\Philip\GitHub\Ray-Tracer\CIMG;C:\Users\Philip\glm;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -113,10 +113,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Geometry.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Plane.cpp" />
+    <ClCompile Include="Rays.cpp" />
+    <ClCompile Include="Triangle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonIncludes.h" />
+    <ClInclude Include="Geometry.h" />
+    <ClInclude Include="Plane.h" />
+    <ClInclude Include="Rays.h" />
+    <ClInclude Include="Triangle.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
