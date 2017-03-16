@@ -49,3 +49,5 @@ Temporary Items
 *.opendb
 *.tlog
 *.idb
+*.db
+Ray-Tracer/Ray-Tracer.VC.db

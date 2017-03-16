@@ -4,10 +4,23 @@
 * Programmed by Philip Michael
 */
 #include "CommonIncludes.h"
-
-using namespace std;
+#include "Triangle.h"
+#include "Sphere.h"
+#include "Camera.h"
+#include "Plane.h"
+#include "Lights.h"
+#include "Rays.h"
+#include "FileReader.h"
 
 int main() {
+	// TEST
+	vector<Triangle> tri_vec;
+	vector<Lights> light_vec;
+	vector<Sphere> sphere_vec;
+	Camera cam;
+	Plane plane;
+
+	readFile("../Scenes/scene1.txt", tri_vec, sphere_vec, light_vec, cam, plane);
 
 	// Wait before ending
 	system("PAUSE");
