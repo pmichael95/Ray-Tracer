@@ -28,6 +28,9 @@
     <Filter Include="Source Files\Fundamentals">
       <UniqueIdentifier>{e8567835-dc20-4571-ad40-70867757bd26}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Helpers">
+      <UniqueIdentifier>{b4bdbc7f-5de9-4be3-9634-4fab3c2d44ad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -51,6 +54,9 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files\Fundamentals</Filter>
     </ClCompile>
+    <ClCompile Include="Lights.cpp">
+      <Filter>Source Files\Fundamentals</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonIncludes.h">
@@ -72,6 +78,12 @@
       <Filter>Header Files\Fundamentals</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
+      <Filter>Header Files\Fundamentals</Filter>
+    </ClInclude>
+    <ClInclude Include="FileReader.h">
+      <Filter>Header Files\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Lights.h">
       <Filter>Header Files\Fundamentals</Filter>
     </ClInclude>
   </ItemGroup>

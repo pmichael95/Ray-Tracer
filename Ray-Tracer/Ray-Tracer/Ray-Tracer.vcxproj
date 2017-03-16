@@ -115,6 +115,7 @@
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Geometry.cpp" />
+    <ClCompile Include="Lights.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Plane.cpp" />
     <ClCompile Include="Rays.cpp" />
@@ -124,7 +125,9 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CommonIncludes.h" />
+    <ClInclude Include="FileReader.h" />
     <ClInclude Include="Geometry.h" />
+    <ClInclude Include="Lights.h" />
     <ClInclude Include="Plane.h" />
     <ClInclude Include="Rays.h" />
     <ClInclude Include="Sphere.h" />
