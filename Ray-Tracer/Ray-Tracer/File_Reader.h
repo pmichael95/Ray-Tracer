@@ -29,7 +29,7 @@ void readVec3(vec3 &vec, ifstream &input) {
 	input >> vec.z;
 }
 
-// Reads a file and processes it to populate elements
+// Reads a file and processes it to populate elements (vectors of objects, etc.)
 void read_file(const char* fpath, vector<Triangle> &triangle, vector<Sphere> &sphere, vector<Lights> &light, Camera &camera, Plane &plane) {
 	string type;
 	int numElements;
