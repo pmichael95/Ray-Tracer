@@ -125,7 +125,7 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CommonIncludes.h" />
-    <ClInclude Include="FileReader.h" />
+    <ClInclude Include="File_Reader.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="Lights.h" />
     <ClInclude Include="Plane.h" />

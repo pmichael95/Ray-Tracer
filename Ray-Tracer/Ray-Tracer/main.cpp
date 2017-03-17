@@ -10,7 +10,7 @@
 #include "Plane.h"
 #include "Lights.h"
 #include "Rays.h"
-#include "FileReader.h"
+#include "File_Reader.h"
 
 int main() {
 	// TEST
@@ -20,7 +20,7 @@ int main() {
 	Camera cam;
 	Plane plane;
 
-	readFile("../Scenes/scene1.txt", tri_vec, sphere_vec, light_vec, cam, plane);
+	read_file("../Scenes/scene1.txt", tri_vec, sphere_vec, light_vec, cam, plane);
 
 	// Wait before ending
 	system("PAUSE");

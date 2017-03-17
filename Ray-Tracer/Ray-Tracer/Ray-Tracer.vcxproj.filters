@@ -80,11 +80,11 @@
     <ClInclude Include="Camera.h">
       <Filter>Header Files\Fundamentals</Filter>
     </ClInclude>
-    <ClInclude Include="FileReader.h">
-      <Filter>Header Files\Helpers</Filter>
-    </ClInclude>
     <ClInclude Include="Lights.h">
       <Filter>Header Files\Fundamentals</Filter>
+    </ClInclude>
+    <ClInclude Include="File_Reader.h">
+      <Filter>Header Files\Helpers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

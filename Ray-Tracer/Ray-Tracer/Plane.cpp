@@ -6,6 +6,7 @@
 // --- CONSTRUCTORS --- //
 // The primary constructor will also instantiate based off the Base Class: Geometry
 
+// A point on the plane and a normal will set the dimensions of the plane as a vec3 by doing normal . point
 Plane::Plane(vec3 normal, vec3 point, vec3 ambient, vec3 diffuse, vec3 specular, float alpha) 
 	: Plane(vec4(normal, -dot(normal, point)), ambient, diffuse, specular, alpha) { }
 
