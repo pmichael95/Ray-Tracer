@@ -22,6 +22,6 @@ public:
 	void setDistance(float dist);
 
 	// --- GETTERS --- //
-	bool getHit() const;
-	float getDistance() const;
+	bool isHit() const; // Check if we did hit an intersection
+	float getDistance() const; // Returns a numerical float distance from the ray to the object that intersected
 };

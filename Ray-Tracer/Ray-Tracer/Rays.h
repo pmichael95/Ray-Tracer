@@ -24,6 +24,9 @@ public:
 	// --- GETTERS --- //
 	vec3 getOrigin() const;
 	vec3 getDirection() const;
+
+	// --- HELPERS --- //
+	vec3 getPoint(float t); // Gets a point that the ray hit
 };
 
 #endif
