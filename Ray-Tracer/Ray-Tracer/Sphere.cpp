@@ -40,9 +40,12 @@ pair<bool, float> Sphere::intersect(Rays &ray) {
 	float l_dot_l = dot(l, l); // dot(l, l)
 
 	// GEOMETRIC METHOD
-	// compute the result
+	// Compute the result
 	// result of: dot(l, o - c)^2 - dot(l, l) x (dot(o - c, o - c) - r^2)
-	float result = l_dot_o_minus_c_2 - l_dot_l * (o_minus_c_dot - r2);
+	//float result = l_dot_o_minus_c_2 - l_dot_l * (o_minus_c_dot - r2);
+	
+	// b*b - 4 * a * c
+	float result = pow(2 * l_dot_o_minus_c, 2) - 4 * l_dot_l * (o_minus_c_dot - r2);
 
 	float t = 0.0f;
 	// --------------------------------
@@ -59,8 +62,8 @@ pair<bool, float> Sphere::intersect(Rays &ray) {
 		// Distance is the sqrt of the result
 		float dist = sqrt(result);
 		// Solve to obtain t1 and t2
-		float t1 = (-l_dot_o_minus_c + dist) / l_dot_l;
-		float t2 = (-l_dot_o_minus_c - dist) / l_dot_l;
+		float t1 = (2*-l_dot_o_minus_c + dist) / (2*l_dot_l); // -b + sqrt(result) / 2a
+		float t2 = (2*-l_dot_o_minus_c - dist) / (2*l_dot_l); // -b - sqrt(result) / 2a
 		if ((t1 < 0.0f && t2 >= 0.0f) || (t2 < 0.0f && t1 >= 0.0f)) {
 			// Opposite case of the below else if, so return max instead
 			t = std::max(t1, t2);
@@ -79,6 +82,6 @@ pair<bool, float> Sphere::intersect(Rays &ray) {
 	if (t >= 0) // Finally check if our returned t isn't < 0
 		intersected = true; // if >= 0, then we intersected
 
-	// Return a pair
+	// Return a pair to signal if it intersected, and our end t value (the distance)
 	return make_pair(intersected, t);
 }

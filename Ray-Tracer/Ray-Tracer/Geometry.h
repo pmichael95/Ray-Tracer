@@ -32,6 +32,11 @@ public:
 	vec3 getDiffuse() const;
 	vec3 getSpecular() const;
 	float getShininess() const;
+
+	// --- HELPERS --- //
+	virtual pair<bool, float> intersection(Rays ray) = 0; // Pure virtual method to be implemented in derived classes
+														// Represents an intersection that will return a bool for true if it intersected
+														// And a float value for the distance with the passed ray
 };
 
 #endif

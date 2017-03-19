@@ -41,14 +41,14 @@ void Camera::updateImgDim() {
 }
 
 // Return a 2D pixel coordinate
-vec2 Camera::getPixelCoord2D(int x, int y) {
+vec2 Camera::getPixelCoord2D(int i, int j) {
 	// First need to make sure it's within the bounds
 	// x and y both need to be greater than or equal to 0 
 	// They also need to be strictly less than our maximum x and y dimensions
-	if ((x >= 0 && x < xSize) && (y >= 0 && y < ySize)) {
+	if ((i >= 0 && i < xSize) && (j >= 0 && j < ySize)) {
 		// Then recalculate
-		float newX = this->width  * (static_cast<float>(x) / xSize); // Our new x is the width  * (x/max x size)
-		float newY = this->height * (static_cast<float>(y) / ySize); // Our new y is the height * (y/max y size)
+		float newX = this->width  * (static_cast<float>(i) / xSize); // Our new x is the width  * (x/max x size)
+		float newY = this->height * (static_cast<float>(j) / ySize); // Our new y is the height * (y/max y size)
 		return vec2(newX, newY); // Return the result as a 2D coordinate (x,y)
 	}
 	else
@@ -59,10 +59,10 @@ vec2 Camera::getPixelCoord2D(int x, int y) {
 }
 
 // Return a 3D pixel coordinate
-vec3 Camera::getPixelCoord3D(int x, int y) {
+vec3 Camera::getPixelCoord3D(int i, int j) {
 	// To get a 3D coordinate for a pixel, we first get its 2D coordinate (x, y)
 	// Then, the Z is -Focal Length
-	vec3 coord3D = vec3(this->getPixelCoord2D(x, y), -this->focalLength);
+	vec3 coord3D = vec3(this->getPixelCoord2D(i, j), -this->focalLength);
 
 	// Finally, we need to use the camera's position and add it to the result to get
 	// a relative 3D coordinate (vec3)
@@ -70,8 +70,8 @@ vec3 Camera::getPixelCoord3D(int x, int y) {
 }
 
 // Compute a ray to pass through a pixel
-Rays Camera::throughPixel(int x, int y) {
-	vec3 pixelCoords = this->getPixelCoord3D(x, y); // First, acquire 3D-space coordinates for the pixel
+Rays Camera::throughPixel(int i, int j) {
+	vec3 pixelCoords = this->getPixelCoord3D(i, j); // First, acquire 3D-space coordinates for the pixel
 	vec3 direction = pixelCoords - this->position; // The direction would be determined by simply taking the pixel coords - our position (camera)
 	return Rays(pixelCoords, direction); // Return a ray that passes through the pixel with our direction
 }

@@ -63,6 +63,9 @@
     <ClCompile Include="Intersection.cpp">
       <Filter>Source Files\Helpers</Filter>
     </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Source Files\Fundamentals</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonIncludes.h">
@@ -94,6 +97,9 @@
     </ClInclude>
     <ClInclude Include="Intersection.h">
       <Filter>Header Files\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Header Files\Fundamentals</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

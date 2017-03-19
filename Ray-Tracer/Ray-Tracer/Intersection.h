@@ -13,12 +13,12 @@ private:
 public:
 	// --- CONSTRUCTORS --- //
 	Intersection() : hit(false), distance(0.0f) { }
-	Intersection(Rays &ray, Geometry &base);
+	Intersection(Rays &ray, Geometry &shape);
 
 	~Intersection(); // Destructor
 
 	// --- SETTERS --- //
-	void setHit(bool hit);
+	void setHit(bool isHit);
 	void setDistance(float dist);
 
 	// --- GETTERS --- //
