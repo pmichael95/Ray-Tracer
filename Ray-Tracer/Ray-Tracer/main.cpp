@@ -1,7 +1,21 @@
 /*
 * RAY TRACER MAIN DRIVER PROGRAM
-* [This project is still a Work in Progress!]
-* Programmed by Philip Michael
+* Programmed by Philip Michael.
+
+-> SOURCES: Princeton University, Dr. S. Mudur, Dr. C. Poullis, 
+			W. Deom, A. Friesen, ohnozzy (GitHub), University of California (Irvine), 
+			Caleb Piercy (YouTube), szellmann (GitHub), Alexander Tolmachev (GitHub)
+
+A lot of the code can be similar to many of the aforementioned sources'.
+(Ray Tracing is popular, too many sources exist.)
+
+COMPILATION INSTRUCTIONS:
+	- This project was constructed, built, and compiled with MS Visual Studio 2015 Community.
+	- If you wish to compile this project, you will need the following libraries:
+				* GLM - OpenGL Mathematics Library (any version that is recent)
+				* CIMG - Any version that is recent
+
+		/\ This project can be compiled with versions of Visual Studio from 2008 onwards. /\
 */
 #include "CommonIncludes.h"
 #include "Triangle.h"
@@ -20,7 +34,14 @@ int main() {
 	Camera cam;
 	Plane plane;
 
+	// Read the input file
 	read_file("../Scenes/scene1.txt", tri_vec, sphere_vec, light_vec, cam, plane);
+	//read_file("../Scenes/scene2.txt", tri_vec, sphere_vec, light_vec, cam, plane);
+	//read_file("../Scenes/scene3.txt", tri_vec, sphere_vec, light_vec, cam, plane);
+	//read_file("../Scenes/scene4.txt", tri_vec, sphere_vec, light_vec, cam, plane);
+	//read_file("../Scenes/scene5.txt", tri_vec, sphere_vec, light_vec, cam, plane);
+	//read_file("../Scenes/scene6.txt", tri_vec, sphere_vec, light_vec, cam, plane);
+	//read_file("../Scenes/scene7.txt", tri_vec, sphere_vec, light_vec, cam, plane);
 
 	/* MAIN LOOP
 	for( int i = 0; i < width; i++){

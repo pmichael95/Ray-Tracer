@@ -11,6 +11,7 @@
 class Triangle : public Geometry {
 private:
 	vector<vec3> vertices; // The vertices that make up the triangle
+	Plane* plane; // A triangle also holds a plane since the 2D surface can be considered a plane
 public:
 	// --- CONSTRUCTORS --- //
 	Triangle() : vertices(vector<vec3>()), Geometry() { } // Empty vertices & call base class to empty
@@ -20,9 +21,11 @@ public:
 
 	// --- SETTER --- //
 	void setVertices(vector<vec3> vertices);
+	void setPlane(Plane* plane);
 
 	// --- GETTER --- //
 	vector<vec3> getVertices() const;
+	Plane* getPlane() const;
 
 	// --- HELPERS --- //
 	vec3 getVertex(int index); // Returns a vec3 vertex based on passed index

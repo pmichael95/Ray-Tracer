@@ -51,8 +51,10 @@ void Scene::addLight(Lights* light) {
 
 // Checks closest intersections from the camera to a shape and returns a pair of intersection type and a shape
 pair<Intersection*, Geometry*> Scene::closestIntersection(int i, int j) {
+	// Set up some defaults...
 	Geometry* closestShape = nullptr;
 	Intersection* closestIntersection = nullptr;
+
 	Rays ray = this->camera->throughPixel(i, j); // Call the camera class' throughPixel with our passed i and j (as needed in camera)
 
 	// Iterate & Create shapes for each of our current shapes
@@ -77,5 +79,5 @@ pair<Intersection*, Geometry*> Scene::closestIntersection(int i, int j) {
 	}
 
 	// At the end, return a struct pair of the closest intersect and its closest shape
-	return std::make_pair(closestIntersection, closestShape);
+	return make_pair(closestIntersection, closestShape);
 }

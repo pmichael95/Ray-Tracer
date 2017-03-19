@@ -21,8 +21,11 @@ void Triangle::setVertices(vector<vec3> vertices) {
 	}
 }
 
+void Triangle::setPlane(Plane* plane) { this->plane = plane; }
+
 // --- GETTER --- //
-vector<vec3> Triangle::getVertices() const { return this->vertices; }
+vector<vec3> Triangle::getVertices()	const { return this->vertices;	}
+Plane* Triangle::getPlane()				const { return this->plane;		}
 
 // --- HELPERS --- //
 vec3 Triangle::getVertex(int index) {
@@ -40,3 +43,4 @@ void Triangle::setVertex(int index, vec3 vertex) {
 	else
 		this->vertices[index] = vertex;
 }
+

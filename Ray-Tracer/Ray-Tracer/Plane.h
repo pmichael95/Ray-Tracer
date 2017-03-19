@@ -24,6 +24,10 @@ public:
 
 	// --- GETTER --- //
 	vec4 getDimensions() const;
+
+	// --- HELPERS --- //
+	virtual pair<bool, float> intersection(Rays ray);
+						// Virtual intersection function since we'd also be calling it through Triangle (the triangle forms a plane to check intersection)
 };
 
 #endif
