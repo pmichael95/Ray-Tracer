@@ -3,7 +3,7 @@
 * Programmed by Philip Michael.
 
 -> SOURCES: Princeton University, Dr. S. Mudur, Dr. C. Poullis, 
-			W. Deom, A. Friesen, ohnozzy (GitHub), University of California (Irvine), 
+			M. Deom, A. Friesen, ohnozzy (GitHub), University of California (Irvine), 
 			Caleb Piercy (YouTube), szellmann (GitHub), Alexander Tolmachev (GitHub)
 
 A lot of the code can be similar to many of the aforementioned sources'.

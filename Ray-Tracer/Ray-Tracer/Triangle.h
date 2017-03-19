@@ -25,11 +25,16 @@ public:
 
 	// --- GETTER --- //
 	vector<vec3> getVertices() const;
-	Plane* getPlane() const;
+	Plane* getPlane();
 
 	// --- HELPERS --- //
 	vec3 getVertex(int index); // Returns a vec3 vertex based on passed index
 	void setVertex(int index, vec3 vertex); // Sets a vertex to replace one based on index
+	virtual pair<bool, float> intersection(Rays ray); // The triangle's intersection case
+	pair<vector<vec2>, vec2> projection(vec3 &intersect_point); // A projection of the triangle in 2D
+	float area(vec2 p1, vec2 p2, vec2 p3);
+
+	static const int TRIANGLE_EDGES = 3;
 };
 
 #endif
