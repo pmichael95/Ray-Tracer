@@ -3,6 +3,14 @@
 */
 #include "Rays.h"
 
+// Constructor
+Rays::Rays(Camera &cam, int i, int j) {
+	this->camera = &cam;
+	this->constructRayThroughPixel(camera, i, j);
+	this->setOrigin(this->camera->getPosition());
+	this->setDirection(vec3(0.0f, 0.0f, 0.0f));
+}
+
 // Destructor
 Rays::~Rays() {  }
 
@@ -19,5 +27,11 @@ vec3 Rays::getOrigin()		const	{ return this->origin;		}
 // --- HELPERS --- //
 vec3 Rays::getPoint(float t) {
 	return this->getOrigin() + this->getDirection() * t;
+}
+
+// Need to project the ray through each pixel
+Rays Rays::constructRayThroughPixel(Camera *cam, int i, int j) {
+	// Use camera member's function for it
+	cam->throughPixel(i, j);
 }
 // --------------- //

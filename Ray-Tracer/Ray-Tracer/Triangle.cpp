@@ -57,7 +57,7 @@ void Triangle::setVertex(int index, vec3 vertex) {
 }
 
 pair<bool, float> Triangle::intersection(Rays ray) {
-	pair<bool, float> planeIntersect = this->plane->intersection(ray); // Get the intersection of the plane with our ray
+	pair<bool, float> planeIntersect = this->getPlane()->intersection(ray); // Get the intersection of the plane with our ray
 	float t = planeIntersect.second; // Save the float inersect t
 	vec3 intersectPoint = ray.getPoint(t); // Get the intersection point from the ray
 	bool isIntersect = false;

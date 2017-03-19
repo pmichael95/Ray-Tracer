@@ -22,7 +22,7 @@ float Sphere::getRadius()	const { return this->radius; }
 vec3 Sphere::getCenter()	const { return this->center; }
 
 // --- HELPERS --- //
-pair<bool, float> Sphere::intersect(Rays &ray) {
+pair<bool, float> Sphere::intersection(Rays ray) {
 	// --- SETUP ALL NECESSARY VARIABLES
 	// Need: origin [from COP] (o), direction (l), radius (r), center (c)
 	// Then need to perform some math to find necessary values
@@ -50,6 +50,7 @@ pair<bool, float> Sphere::intersect(Rays &ray) {
 
 	if (result < 0.0f) {
 		cout << "NO INTERSECTION. Result < 0" << endl;
+		return make_pair(false, -1);
 	}
 	else if (result == 0.0f) {
 		// Result for t is -dot(l, o - c) / dot(l, l)

@@ -41,6 +41,7 @@ pair<bool, float> Plane::intersection(Rays ray) {
 	// If it's 0, then as above there is no intersection
 	if (n_dot_r_prime == 0.0f) {
 		cout << "NO INTERSECTION -- PLANE" << endl;
+		return make_pair(false, -1);
 	}
 	else {
 		// Result is then -(dot(n, ray origin) + d) / n.r'

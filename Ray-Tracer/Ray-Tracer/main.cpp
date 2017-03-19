@@ -25,6 +25,10 @@ COMPILATION INSTRUCTIONS:
 #include "Lights.h"
 #include "Rays.h"
 #include "File_Reader.h"
+#include "Intersection.h"
+
+static const int xSize = 800;
+static const int ySize = 800;
 
 int main() {
 	// Set up primary necessary variables
@@ -46,14 +50,14 @@ int main() {
 	/* MAIN LOOP
 	for( int i = 0; i < width; i++){
 		for( int j = 0; j < height; j++){
-			Rays ray = Rays(camera, i, j);
-			Intersection hit = Intersection(ray, scene);
+			Rays ray = ConstructRayThroughPixel(camera, i, j);
+			Intersection hit = FindIntersection(ray, scene);
 			image[i][j] = getColor(hit);
 		}
 	}
 	// -- FROM PRINCETON SLIDES
 	*/
-
+	
 	// Wait before ending
 	system("PAUSE");
 	return 0;

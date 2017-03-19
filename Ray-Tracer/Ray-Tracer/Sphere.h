@@ -28,7 +28,7 @@ public:
 	// Intersection to be called from base class through Intersection class
 	// checks for ray-sphere intersection by passing a ray
 	// Returns bool for if it does intersect, and a float distance from COP to the plane of the sphere
-	virtual pair<bool, float> intersect(Rays &ray);
+	virtual pair<bool, float> intersection(Rays ray);
 };
 
 #endif
