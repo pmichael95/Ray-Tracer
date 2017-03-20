@@ -12,7 +12,10 @@ Triangle::Triangle(vec3 v1, vec3 v2, vec3 v3, vec3 ambient, vec3 diffuse, vec3 s
 	vertices.push_back(v3);
 }
 
-Triangle::~Triangle() { } // Default destructor
+Triangle::~Triangle() { 
+	delete this->plane;
+	this->plane = nullptr;
+} // Default destructor
 
 // --- SETTER --- //
 void Triangle::setVertices(vector<vec3> vertices) {
@@ -73,11 +76,15 @@ pair<bool, float> Triangle::intersection(Rays ray) {
 
 		for (int i = 0; i < TRIANGLE_EDGES; i++) {
 			// If the area returns greater than 0
-			if (area(verts[i], verts[(i + 1) % TRIANGLE_EDGES], p) >= 0.0f)
+			if (area(verts[i], verts[(i + 1) % TRIANGLE_EDGES], p) >= 0.0f) {
 				// Then we have an intersection
 				isIntersect = true;
-			else
+				cout << "FOUND INTERSECTION -- TRIANGLE" << endl;
+			}
+			else {
 				isIntersect = false;
+				cout << "NO INTERSECTION -- TRIANGLE" << endl;
+			}
 		}
 	}
 
@@ -125,6 +132,7 @@ pair<vector<vec2>, vec2> Triangle::projection(vec3 &intersect_point) {
 A(T) = 1/2 * (-aybx + axby + aycx - bycx - axcy + bxcy)
 */
 float Triangle::area(vec2 p1, vec2 p2, vec2 p3) {
+	
 	float ax = p1.x;
 	float ay = p1.y;
 	float bx = p2.x;
@@ -133,4 +141,5 @@ float Triangle::area(vec2 p1, vec2 p2, vec2 p3) {
 	float cy = p3.y;
 
 	return ((-ay*bx + ax*by + ay*cx - by*cx - ax*cy + bx*cy)/2);
+	//return 0.5 * ((p2.x - p1.x) * (p3.y - p1.y) - (p3.x - p1.x) * (p2.y - p1.y));
 }

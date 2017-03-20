@@ -9,6 +9,8 @@
 #include "CommonIncludes.h"
 #include "Rays.h" // Will need the rays since direction and origin need to be passed
 
+class Rays;
+
 class Camera {
 private:
 	vec3 position; // Camera pos

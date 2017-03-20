@@ -7,16 +7,17 @@
 #include "CommonIncludes.h"
 #include "Camera.h"
 
+class Camera;
+
 class Rays {
 private:
 	vec3 origin; // The coordinates of origin (camera)
 	vec3 direction; // The vector for the direction
-	Camera* camera;
 public:
 	// --- CONSTRUCTORS --- //
 	Rays() : origin(vec3(0.0f, 0.0f, 0.0f)), direction(vec3(0.0f, 0.0f, 0.0f)) { }; 
 	Rays(vec3 m_origin, vec3 m_direction) : origin(m_origin), direction(m_direction) { };
-	Rays(Camera &cam, int i, int j);
+	//Rays(Camera *cam, int i, int j);
 
 	~Rays(); // Destructor
 
@@ -30,7 +31,7 @@ public:
 
 	// --- HELPERS --- //
 	vec3 getPoint(float t); // Gets a point that the ray hit
-	Rays constructRayThroughPixel(Camera *cam, int i, int j);
+	//Rays constructRayThroughPixel(int i, int j);
 };
 
 #endif

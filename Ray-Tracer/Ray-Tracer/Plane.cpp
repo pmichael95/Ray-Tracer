@@ -45,6 +45,7 @@ pair<bool, float> Plane::intersection(Rays ray) {
 	}
 	else {
 		// Result is then -(dot(n, ray origin) + d) / n.r'
+		cout << "FOUND INTERSECTION -- PLANE" << endl;
 		t = -(dot(n, o) + d) / n_dot_r_prime;
 	}
 

@@ -23,6 +23,7 @@ public:
 	// --- GETTERS --- //
 	float getRadius() const;
 	vec3 getCenter() const;
+	virtual string getType() const { return "Sphere"; }
 
 	// --- HELPERS --- //
 	// Intersection to be called from base class through Intersection class

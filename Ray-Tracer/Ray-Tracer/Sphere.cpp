@@ -49,7 +49,7 @@ pair<bool, float> Sphere::intersection(Rays ray) {
 	// --------------------------------
 
 	if (result < 0.0f) {
-		cout << "NO INTERSECTION. Result < 0" << endl;
+		cout << "NO INTERSECTION. -- SPHERE Result < 0" << endl;
 		return make_pair(false, -1);
 	}
 	else if (result == 0.0f) {
@@ -67,13 +67,16 @@ pair<bool, float> Sphere::intersection(Rays ray) {
 		if (t1 >= 0.0f && t2 >= 0.0f) {
 			// If t1, t2 > 0, return min(t1, t2)
 			t = std::min(t1, t2);
+			cout << "FOUND INTERSECTION -- SPHERE" << endl;
 		}
 		else if ((t1 < 0.0f && t2 >= 0.0f) || (t2 < 0.0f && t1 >= 0.0f)) {
 			// Opposite case of the above, so return max instead
 			t = std::max(t1, t2);
+			cout << "FOUND INTERSECTION -- SPHERE" << endl;
 		}
 		else {
-			cout << "NO INTERSECTION. t has unknown behavior." << endl; // Default, should not reach [error]
+			cout << "NO INTERSECTION. -- SPHERE t has unknown behavior." << endl; // Default, should not reach [error]
+			return make_pair(false, -1);
 		}
 	}
 

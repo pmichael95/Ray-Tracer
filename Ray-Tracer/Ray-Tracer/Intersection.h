@@ -2,6 +2,8 @@
 * INTERSECTION CLASS HEADER
 -> Here we process the intersections between rays and surfaces
 */
+#ifndef INTERSECTION_H
+#define INTERSECTION_H
 #include "CommonIncludes.h"
 #include "Rays.h"
 #include "Geometry.h"
@@ -25,3 +27,5 @@ public:
 	bool isHit() const; // Check if we did hit an intersection
 	float getDistance() const; // Returns a numerical float distance from the ray to the object that intersected
 };
+
+#endif

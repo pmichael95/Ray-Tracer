@@ -24,6 +24,7 @@ public:
 
 	// --- GETTER --- //
 	vec4 getDimensions() const;
+	virtual string getType() const { return "Plane"; }
 
 	// --- HELPERS --- //
 	virtual pair<bool, float> intersection(Rays ray);

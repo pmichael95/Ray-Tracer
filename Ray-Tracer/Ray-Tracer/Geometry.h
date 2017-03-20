@@ -33,6 +33,7 @@ public:
 	vec3 getDiffuse() const;
 	vec3 getSpecular() const;
 	float getShininess() const;
+	virtual string getType() const =0;
 
 	// --- HELPERS --- //
 	virtual pair<bool, float> intersection(Rays ray) = 0; // Pure virtual method to be implemented in derived classes

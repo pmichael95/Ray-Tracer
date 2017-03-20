@@ -69,6 +69,7 @@ vec3 Camera::getPixelCoord3D(int i, int j) {
 	return this->position + coord3D;
 }
 
+
 // Compute a ray to pass through a pixel
 Rays Camera::throughPixel(int i, int j) {
 	vec3 pixelCoords = this->getPixelCoord3D(i, j); // First, acquire 3D-space coordinates for the pixel

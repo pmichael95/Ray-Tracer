@@ -26,17 +26,63 @@ COMPILATION INSTRUCTIONS:
 #include "Rays.h"
 #include "File_Reader.h"
 #include "Intersection.h"
+#include "Scene.h"
 
-static const int xSize = 800;
-static const int ySize = 800;
+static const int WIDTH = 100;
+static const int HEIGHT = 100;
+
+// MAIN LOOP
+void RayCast(Camera &camera, Scene &scene, vector<Triangle> &tri_vec, vector<Lights> &light_vec, vector<Sphere> &sphere_vec, Plane &plane) {
+	// Set up necessary vectors
+	vector<Geometry*> shapes;
+	vector<Lights*> lights;
+
+	// Populate them
+	for (unsigned int i = 0; i < tri_vec.size(); i++) {
+		shapes.push_back(&tri_vec[i]);
+	}
+	for (unsigned int i = 0; i < sphere_vec.size(); i++) {
+		shapes.push_back(&sphere_vec[i]);
+	}
+	for (unsigned int i = 0; i < light_vec.size(); i++) {
+		lights.push_back(&light_vec[i]);
+	}
+	shapes.push_back(&plane);
+
+	// Set the scene values
+	scene.setCamera(camera);
+	scene.setLights(lights);
+	scene.setShapes(shapes);
+	
+	// Build the intersect pair and iterate
+	pair<Intersection*, Geometry*> intersect;
+	for (int i = 0; i < WIDTH; i++) {
+		for (int j = 0; j < HEIGHT; j++) {
+			intersect = scene.closestIntersection(i, j);
+			if (intersect.first->isHit())
+				cout << "Found an intersection." << endl;
+			else
+				cout << "No intersection." << endl;
+		}
+	}
+
+	// Memory cleanup, unless already nullptr
+	if (intersect.first != nullptr && intersect.second != nullptr) {
+		delete intersect.first;
+		intersect.first = nullptr;
+		delete intersect.second;
+		intersect.second = nullptr;
+	}
+}
 
 int main() {
 	// Set up primary necessary variables
 	vector<Triangle> tri_vec;
 	vector<Lights> light_vec;
 	vector<Sphere> sphere_vec;
-	Camera cam;
-	Plane plane;
+	Plane plane = Plane();
+	Camera cam = Camera();
+	Scene scene = Scene();
 
 	// Read the input file
 	read_file("../Scenes/scene1.txt", tri_vec, sphere_vec, light_vec, cam, plane);
@@ -46,6 +92,8 @@ int main() {
 	//read_file("../Scenes/scene5.txt", tri_vec, sphere_vec, light_vec, cam, plane);
 	//read_file("../Scenes/scene6.txt", tri_vec, sphere_vec, light_vec, cam, plane);
 	//read_file("../Scenes/scene7.txt", tri_vec, sphere_vec, light_vec, cam, plane);
+
+	RayCast(cam, scene, tri_vec, light_vec, sphere_vec, plane);
 
 	/* MAIN LOOP
 	for( int i = 0; i < width; i++){

@@ -15,18 +15,17 @@
 class Geometry;
 class Lights;
 class Camera;
-class Intersection;
-*/
+class Intersection;*/
 
 class Scene {
 private:
-	Camera* camera;
+	Camera camera;
 	vector<Geometry*> shapes;
 	vector<Lights*> lights;
 public:
 	// --- CONSTRUCTORS --- //
-	Scene() : camera(nullptr), shapes(vector<Geometry*>()), lights(vector<Lights*>()) { }
-	Scene(Camera &camera) : camera(&camera) { }
+	Scene() : camera(), shapes(vector<Geometry*>()), lights(vector<Lights*>()) { }
+	Scene(Camera &camera) : camera(camera) { }
 
 	~Scene(); // Destructor
 
@@ -36,7 +35,7 @@ public:
 	void setLights(vector<Lights*> lights);
 
 	// --- GETTERS --- //
-	Camera* getCamera() const;
+	Camera getCamera() const;
 	vector<Geometry*> getShapes() const;
 	vector<Lights*> getLights() const;
 
