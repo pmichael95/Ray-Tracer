@@ -22,6 +22,7 @@ float Sphere::getRadius()	const { return this->radius; }
 vec3 Sphere::getCenter()	const { return this->center; }
 
 // --- HELPERS --- //
+/*
 pair<bool, float> Sphere::intersection(Rays ray) {
 	// --- SETUP ALL NECESSARY VARIABLES
 	// Need: origin [from COP] (o), direction (l), radius (r), center (c)
@@ -82,4 +83,51 @@ pair<bool, float> Sphere::intersection(Rays ray) {
 
 	// Return a pair to signal if it intersected, and our end t value (the distance)
 	return make_pair(t >=0, t);
+}
+*/
+
+// SPHERE INTERSECTION CASE
+pair<bool, float> Sphere::intersection(Rays ray) {
+	// Acquire necessary data
+	vec3 direction = ray.getDirection(); // Direction vector (normalized)
+	vec3 origin = ray.getOrigin(); // Origin vector
+	vec3 center = this->getCenter(); // Get current sphere's center vec3
+	
+	// Setup necessary variables
+	float r = this->getRadius();
+	float r2 = pow(r, 2);
+	vec3 o_c = origin - center;
+	float b = 2 * dot(direction, o_c);
+	float b2 = pow(b, 2);
+	float c = dot(o_c, o_c) - r2;
+	// Discriminant = b^2 - 4c
+	float disc = b2 - 4 * c;
+
+	if (disc < 0) {
+		cout << "NO INTERSECTION -- SPHERE" << endl;
+		return make_pair(false, -1); // No intersect
+	}
+	else if (disc == 0.0f) {
+		cout << "FOUND INTERSECTION -- SPHERE -> case disc == 0.0f" << endl;
+		return make_pair(true, -b / 2);
+	}
+	else {
+		float t1 = (-b + sqrt(disc)) / 2; // (-b + sqrt(discriminant)) / 2
+		float t2 = (-b - sqrt(disc)) / 2; // (-b - sqrt(discriminant)) / 2
+
+		// If t1 is strictly less than 0, give back t2
+		if (t1 < 0) {
+			cout << "FOUND INTERSECTION -- SPHERE -> case t1 < 0" << endl;
+			return make_pair(true, t2);
+		}
+		// If t2 is strictly less than 0, give back t1
+		else if (t2 < 0) {
+			cout << "FOUND INTERSECTION -- SPHERE -> case t2 < 0" << endl;
+			return make_pair(true, t1);
+		}
+		else {
+			cout << "FOUND INTERSECTION -- SPHERE -> case min(t1, t2)" << endl;
+			return make_pair(true, std::min(t1, t2)); // The case we want: return the minimum of the two
+		}
+	}
 }

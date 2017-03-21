@@ -16,7 +16,7 @@ private:
 public:
 	// --- CONSTRUCTORS --- //
 	Rays() : origin(vec3(0.0f, 0.0f, 0.0f)), direction(vec3(0.0f, 0.0f, 0.0f)) { }; 
-	Rays(vec3 m_origin, vec3 m_direction) : origin(m_origin), direction(m_direction) { };
+	Rays(vec3 m_origin, vec3 m_direction) : origin(m_origin), direction(normalize(m_direction)) { };
 	//Rays(Camera *cam, int i, int j);
 
 	~Rays(); // Destructor

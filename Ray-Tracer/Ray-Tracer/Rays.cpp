@@ -17,8 +17,8 @@ Rays::~Rays() {
 }
 
 // --- SETTERS --- //
-void Rays::setDirection(vec3 direction) { this->direction	= direction;	}
-void Rays::setOrigin(vec3 origin)		{ this->origin		= origin;		}
+void Rays::setDirection(vec3 direction) { this->direction	= normalize(direction);	}
+void Rays::setOrigin(vec3 origin)		{ this->origin		= origin;				}
 // ---------------- //
 
 // --- GETTERS --- //

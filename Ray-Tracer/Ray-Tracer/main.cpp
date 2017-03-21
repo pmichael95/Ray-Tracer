@@ -2,7 +2,7 @@
 * RAY TRACER MAIN DRIVER PROGRAM
 * Programmed by Philip Michael.
 
--> SOURCES: Princeton University, Dr. S. Mudur, Dr. C. Poullis, 
+-> SOURCES: Princeton University, Dr. S. Mudur, Dr. C. Poullis, M. Millar,
 			M. Deom, A. Friesen, ohnozzy (GitHub), University of California (Irvine), 
 			Caleb Piercy (YouTube), szellmann (GitHub), Alexander Tolmachev (GitHub)
 
@@ -28,14 +28,19 @@ COMPILATION INSTRUCTIONS:
 #include "Intersection.h"
 #include "Scene.h"
 
-static const int WIDTH = 100;
-static const int HEIGHT = 100;
+static const int WIDTH = 10;
+static const int HEIGHT = 10;
 
 // MAIN LOOP
 void RayCast(Camera &camera, Scene &scene, vector<Triangle> &tri_vec, vector<Lights> &light_vec, vector<Sphere> &sphere_vec, Plane &plane) {
 	// Set up necessary vectors
 	vector<Geometry*> shapes;
 	vector<Lights*> lights;
+	// DEFAULTS TO BE CHANGED ABOVE
+	camera.setWidth(WIDTH);
+	camera.setHeight(HEIGHT);
+
+	int intersectCount = 0;
 
 	// Populate them
 	for (unsigned int i = 0; i < tri_vec.size(); i++) {
@@ -56,23 +61,25 @@ void RayCast(Camera &camera, Scene &scene, vector<Triangle> &tri_vec, vector<Lig
 	
 	// Build the intersect pair and iterate
 	pair<Intersection*, Geometry*> intersect;
-	for (int i = 0; i < WIDTH; i++) {
-		for (int j = 0; j < HEIGHT; j++) {
+	for (int i = 0; i < camera.getWidth(); i++) {
+		for (int j = 0; j < camera.getHeight(); j++) {
+			// Acquire closest intersect from scene
 			intersect = scene.closestIntersection(i, j);
-			if (intersect.first->isHit())
-				cout << "Found an intersection." << endl;
+			// Verify if we have an intersection
+			if (intersect.first->isHit() && intersect.second != nullptr) {
+				cout << "Found an intersection as a " << intersect.second->getType() << endl;
+				intersectCount++;
+			}
 			else
 				cout << "No intersection." << endl;
 		}
 	}
 
-	// Memory cleanup, unless already nullptr
-	if (intersect.first != nullptr && intersect.second != nullptr) {
-		delete intersect.first;
-		intersect.first = nullptr;
-		delete intersect.second;
-		intersect.second = nullptr;
-	}
+	cout << "\n\n--- TOTAL INTERSECTIONS: " << intersectCount << endl;
+	cout << "Camera FOV: " << camera.getFOV() << endl;
+	cout << "Camera aRatio: " << camera.getAspectRatio() << endl;
+	cout << "Camera Focal Length: " << camera.getFocalLength() << endl;
+
 }
 
 int main() {
@@ -85,13 +92,13 @@ int main() {
 	Scene scene = Scene();
 
 	// Read the input file
-	read_file("../Scenes/scene1.txt", tri_vec, sphere_vec, light_vec, cam, plane);
+	//read_file("../Scenes/scene1.txt", tri_vec, sphere_vec, light_vec, cam, plane);
 	//read_file("../Scenes/scene2.txt", tri_vec, sphere_vec, light_vec, cam, plane);
 	//read_file("../Scenes/scene3.txt", tri_vec, sphere_vec, light_vec, cam, plane);
 	//read_file("../Scenes/scene4.txt", tri_vec, sphere_vec, light_vec, cam, plane);
 	//read_file("../Scenes/scene5.txt", tri_vec, sphere_vec, light_vec, cam, plane);
 	//read_file("../Scenes/scene6.txt", tri_vec, sphere_vec, light_vec, cam, plane);
-	//read_file("../Scenes/scene7.txt", tri_vec, sphere_vec, light_vec, cam, plane);
+	read_file("../Scenes/scene7.txt", tri_vec, sphere_vec, light_vec, cam, plane);
 
 	RayCast(cam, scene, tri_vec, light_vec, sphere_vec, plane);
 

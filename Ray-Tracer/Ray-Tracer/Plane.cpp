@@ -3,52 +3,43 @@
 */
 #include "Plane.h"
 
-// --- CONSTRUCTORS --- //
-// The primary constructor will also instantiate based off the Base Class: Geometry
+// Destructor
+Plane::~Plane() { }
 
-// A point on the plane and a normal will set the dimensions of the plane as a vec3 by doing normal . point
-Plane::Plane(vec3 normal, vec3 point, vec3 ambient, vec3 diffuse, vec3 specular, float alpha) 
-	: Plane(vec4(normal, -dot(normal, point)), ambient, diffuse, specular, alpha) { }
+// --- SETTERS --- //
+void Plane::setNormal(vec3 normal) {
+	this->normal = normalize(normal);
+}
 
-Plane::Plane(vec4 dimensions, vec3 ambient, vec3 diffuse, vec3 specular, float alpha)
-	: Geometry(ambient, diffuse, specular, alpha), dimensions(dimensions) { }
+void Plane::setPos(vec3 pos) {
+	this->pos = pos;
+}
 
-Plane::Plane(vec3 normal, vec3 point) 
-	: Plane(normal, point, vec3(0.0f), vec3(0.0f), vec3(0.0f), 0.0f) { }
+// --- GETTERS --- //
+vec3 Plane::getNormal() const {
+	return this->normal;
+}
 
-Plane::~Plane() { } // Default destructor
-
-// --- SETTER --- //
-void Plane::setDimensions(vec4 dimensions) { this->dimensions = dimensions; }
-
-// --- GETTER --- //
-vec4 Plane::getDimensions() const { return this->dimensions; }
+vec3 Plane::getPos() const {
+	return this->pos;
+}
 
 // --- HELPERS --- //
+// INTERSECTION FOR PLANE
+// Also relevant for triangle cases
 pair<bool, float> Plane::intersection(Rays ray) {
-	// The intersection point between a plane (n, d) and a ray (r_0, r') is:
-	//	t= - (n . r_0 + d) / ( n . r')
-	// n . r' = 0 if no intersect
+	// Acquire necessary variables
+	float n_dot_dir = dot(this->getNormal(), ray.getDirection());
+	float n_dot_o = dot(this->getNormal(), ray.getOrigin());
+	float d = -(dot(this->getPos(), this->getNormal()));
 
-	vec3 n = vec3(this->getDimensions()); // n = (x, y, z) dimensions for plane
-	float d = this->getDimensions().w; // d is the w of plane dimensions
-	vec3 o = ray.getOrigin(); // o for the ray's origin 3D coords
-	float n_dot_r_prime = dot(n, o);
-
-	float t = 0.0f;
-
-	// Verify the result of n.r'
-	// If it's 0, then as above there is no intersection
-	if (n_dot_r_prime == 0.0f) {
+	// Check to see if there is an intersection
+	if (n_dot_dir == 0.0f) {
 		cout << "NO INTERSECTION -- PLANE" << endl;
 		return make_pair(false, -1);
 	}
 	else {
-		// Result is then -(dot(n, ray origin) + d) / n.r'
 		cout << "FOUND INTERSECTION -- PLANE" << endl;
-		t = -(dot(n, o) + d) / n_dot_r_prime;
+		return make_pair(true, -((n_dot_o + d) / n_dot_dir));
 	}
-
-	// Return a pair representing the intersection
-	return make_pair(t >= 0, t);
 }

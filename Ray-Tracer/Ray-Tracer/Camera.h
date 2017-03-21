@@ -9,6 +9,9 @@
 #include "CommonIncludes.h"
 #include "Rays.h" // Will need the rays since direction and origin need to be passed
 
+// Instance pi
+#define PI 3.14159265
+
 class Rays;
 
 class Camera {
@@ -17,12 +20,13 @@ private:
 	float fov; // Camera field of view
 	float aspectRatio; // Camera aspect ratio
 	float focalLength; // Camera's visible focal length
-	float width; // Width for camera
-	float height; // Height for camera
+	float width; // Width for scene
+	float height; // Height for scene
+	float fov_x; // x fov value
 public:
 	// --- CONSTRUCTORS --- //
-	Camera() : position(vec3(0.0f)), fov(0.0f), aspectRatio(0.0f), focalLength(0.0f), width(800.0f), height(800.0f) { }
-	Camera(vec3 pos, float fov, float aRatio);
+	Camera() : position(vec3(0.0f)), fov(0.0f), aspectRatio(0.0f), focalLength(0.0f) { }
+	Camera(vec3 pos, float fov, float focalLength, float aRatio);
 
 	~Camera(); // Destructor
 
@@ -48,10 +52,6 @@ public:
 	vec2 getPixelCoord2D(int i, int j); // Returns the pixel coordinate as passed with x and y as a vec2 (2D space)
 	vec3 getPixelCoord3D(int i, int j); // Returns the pixel coordinate as passed with x and y as a vec3 (3D space) 
 	Rays throughPixel(int i, int j); // Compute a ray through the pixel passed by x and y as a Rays object
-
-	// --- DIMENSIONS --- //
-	static const int xSize = 800;
-	static const int ySize = 800;
 };
 
 #endif

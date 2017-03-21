@@ -1,6 +1,5 @@
-/*
-* PLANE THAT INHERITS FROM GEOMETRY
-*/
+// PLANE CLASS
+// Used as stand-alone but also for Triangle
 #ifndef PLANE_H
 #define PLANE_H
 #include "CommonIncludes.h"
@@ -9,26 +8,29 @@
 
 class Plane : public Geometry {
 private:
-	vec4 dimensions; // The dimensions of the plane
+	vec3 normal; // Plane's normal vector
+	vec3 pos; // Position/point on plane
 public:
 	// --- CONSTRUCTORS --- //
-	Plane() : dimensions(vec4(0.0f)), Geometry() {}; // Empty dimensions & call base class to empty
-	Plane(vec3 normal, vec3 point, vec3 ambient, vec3 diffuse, vec3 specular, float alpha);
-	Plane(vec4 dimensions, vec3 ambient, vec3 diffuse, vec3 specular, float alpha);
-	Plane(vec3 normal, vec3 point);
+	Plane() : normal(vec3(0.0f)) { }
+	Plane(vec3 normal, vec3 pos, vec3 ambient, vec3 diffuse, vec3 specular, float alpha)
+		: normal(normalize(normal)), pos(pos), Geometry(ambient, diffuse, specular, alpha) { }
+	Plane(vec3 normal, vec3 pos)
+		: normal(normalize(normal)), pos(pos) { }
 
 	~Plane(); // Destructor
 
-	// --- SETTER --- //
-	void setDimensions(vec4 dimensions);
-
-	// --- GETTER --- //
-	vec4 getDimensions() const;
-	virtual string getType() const { return "Plane"; }
+	// --- SETTERS --- //
+	void setNormal(vec3 normal);
+	void setPos(vec3 pos);
+	
+	// --- GETTERS --- //
+	vec3 getNormal() const;
+	vec3 getPos() const;
 
 	// --- HELPERS --- //
 	virtual pair<bool, float> intersection(Rays ray);
-						// Virtual intersection function since we'd also be calling it through Triangle (the triangle forms a plane to check intersection)
+	virtual string getType() const { return "Plane"; }
 };
 
 #endif

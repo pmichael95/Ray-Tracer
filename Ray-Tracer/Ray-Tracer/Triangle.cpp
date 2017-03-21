@@ -37,7 +37,7 @@ Plane* Triangle::getPlane() {
 	vec3 u = this->vertices[1] - this->vertices[0];
 	vec3 v = this->vertices[2] - this->vertices[0];
 	// Compute the normal
-	vec3 normal = cross(u, v);
+	vec3 normal = normalize(cross(u, v));
 	// Build a new Plane using the normal and the base vertex
 	return new Plane(normal, this->vertices[0]);
 }
@@ -60,7 +60,8 @@ void Triangle::setVertex(int index, vec3 vertex) {
 }
 
 pair<bool, float> Triangle::intersection(Rays ray) {
-	pair<bool, float> planeIntersect = this->getPlane()->intersection(ray); // Get the intersection of the plane with our ray
+	this->plane = this->getPlane(); // Construct plane to get the intersection
+	pair<bool, float> planeIntersect = this->plane->intersection(ray); // Get the intersection of the plane with our ray
 	float t = planeIntersect.second; // Save the float inersect t
 	vec3 intersectPoint = ray.getPoint(t); // Get the intersection point from the ray
 	bool isIntersect = false;
@@ -80,10 +81,12 @@ pair<bool, float> Triangle::intersection(Rays ray) {
 				// Then we have an intersection
 				isIntersect = true;
 				cout << "FOUND INTERSECTION -- TRIANGLE" << endl;
+				return make_pair(true, t);
 			}
 			else {
 				isIntersect = false;
 				cout << "NO INTERSECTION -- TRIANGLE" << endl;
+				return make_pair(false, -1);
 			}
 		}
 	}
@@ -94,7 +97,7 @@ pair<bool, float> Triangle::intersection(Rays ray) {
 pair<vector<vec2>, vec2> Triangle::projection(vec3 &intersect_point) {
 	// Set up necessary variables
 	vector<vec2> vertexProj;
-	vec3 normal = vec3(this->plane->getDimensions());
+	vec3 normal = vec3(this->plane->getNormal());
 	vec2 intersectProj;
 
 	// Check if we're handling the y/z members

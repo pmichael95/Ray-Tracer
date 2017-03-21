@@ -4,8 +4,13 @@
 #include "Camera.h"
 
 // --- CONSTRUCTORS --- //
-Camera::Camera(vec3 pos, float fov, float aRatio)
-	: position(pos), fov(fov), aspectRatio(aRatio), width(800.0f), height(800.0f) { }
+Camera::Camera(vec3 pos, float fov, float focalLength, float aRatio)
+	: position(pos), fov((PI / 180.0f) * fov), focalLength(focalLength), aspectRatio(aRatio) 
+{ 
+	this->updateImgDim();
+	// The x FOV is 2 * arcTan((width/2) / focalLength)
+	fov_x = 2 * std::atan((this->width / 2) / this->focalLength);
+}
 
 Camera::~Camera() { } // Destructor
 
@@ -35,20 +40,25 @@ float Camera::getWidth()		const { return this->width;			}
 float Camera::getHeight()		const { return this->height;		}
 
 // --- HELPERS --- //
+// Updates the camera image dimensions on need
 void Camera::updateImgDim() {
-	this->width = this->height * this->aspectRatio; // Width = height * aspect ratio -> NOTE: Width = x
-	this->height = this->focalLength * atan(this->fov / 2); // Height = focal length * arcTan(FOV/2) -> NOTE: Height = y
+	// Set the height as 2fov * tan(fov/2)
+	this->height	= 2 * focalLength * std::tan(fov/2);
+	// Set the width as aspect ratio * height
+	this->width		= aspectRatio * this->height;
 }
 
+////////////
+// --- PENDING TO BE REMOVED IF NOT NEEDED --- //
 // Return a 2D pixel coordinate
 vec2 Camera::getPixelCoord2D(int i, int j) {
 	// First need to make sure it's within the bounds
 	// x and y both need to be greater than or equal to 0 
-	// They also need to be strictly less than our maximum x and y dimensions
-	if ((i >= 0 && i < xSize) && (j >= 0 && j < ySize)) {
+	// They also need to be strictly less than our maximum x and y dimensions (width and height)
+	if ((i >= 0 && i < this->width) && (j >= 0 && j < this->height)) {
 		// Then recalculate
-		float newX = this->width  * (static_cast<float>(i) / xSize); // Our new x is the width  * (x/max x size)
-		float newY = this->height * (static_cast<float>(j) / ySize); // Our new y is the height * (y/max y size)
+		float newX = this->width  * (static_cast<float>(i) / this->width); // Our new x is the width  * (x/max x size)
+		float newY = this->height * (static_cast<float>(j) / this->height); // Our new y is the height * (y/max y size)
 		return vec2(newX, newY); // Return the result as a 2D coordinate (x,y)
 	}
 	else
@@ -69,10 +79,19 @@ vec3 Camera::getPixelCoord3D(int i, int j) {
 	return this->position + coord3D;
 }
 
+///////////////////////////////////////////////////////////////////
 
-// Compute a ray to pass through a pixel
+// Calculate a ray through the pixel in world coordinates
 Rays Camera::throughPixel(int i, int j) {
-	vec3 pixelCoords = this->getPixelCoord3D(i, j); // First, acquire 3D-space coordinates for the pixel
-	vec3 direction = pixelCoords - this->position; // The direction would be determined by simply taking the pixel coords - our position (camera)
-	return Rays(pixelCoords, direction); // Return a ray that passes through the pixel with our direction
+	// Compute new angles
+	float yAngle = this->fov / 2;
+	float xAngle = this->fov_x / 2;
+
+	// Find new x and y coordinate values
+	float newX = this->focalLength * std::tan(xAngle) * ((j - (this->width / 2)) / (this->width / 2));
+	float newY = this->focalLength * std::tan(yAngle) * (((this->height / 2) - i) / (this->height / 2));
+
+	// Now send the ray
+	// Ray is: (position, [newX, newY, - focal])
+	return Rays(this->getPosition(), vec3(newX, newY, -this->focalLength));
 }
