@@ -7,6 +7,7 @@
 #include "CommonIncludes.h"
 #include "Camera.h"
 
+// For no circular dependence
 class Camera;
 
 class Rays {
@@ -31,7 +32,6 @@ public:
 
 	// --- HELPERS --- //
 	vec3 getPoint(float t); // Gets a point that the ray hit
-	//Rays constructRayThroughPixel(int i, int j);
 };
 
 #endif

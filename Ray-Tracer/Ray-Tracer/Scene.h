@@ -10,13 +10,6 @@
 #include "Camera.h"
 #include "Intersection.h"
 
-// For no circular dependence
-/*
-class Geometry;
-class Lights;
-class Camera;
-class Intersection;*/
-
 class Scene {
 private:
 	Camera camera;

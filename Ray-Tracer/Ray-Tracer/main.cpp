@@ -33,31 +33,27 @@ static const int HEIGHT = 10;
 
 // MAIN LOOP
 void RayCast(Camera &camera, Scene &scene, vector<Triangle> &tri_vec, vector<Lights> &light_vec, vector<Sphere> &sphere_vec, Plane &plane) {
-	// Set up necessary vectors
-	vector<Geometry*> shapes;
-	vector<Lights*> lights;
 	// DEFAULTS TO BE CHANGED ABOVE
 	camera.setWidth(WIDTH);
 	camera.setHeight(HEIGHT);
 
+	// Set the scene camera
+	scene.setCamera(camera);
+
+	// For debugging
 	int intersectCount = 0;
 
 	// Populate them
 	for (unsigned int i = 0; i < tri_vec.size(); i++) {
-		shapes.push_back(&tri_vec[i]);
+		scene.addShape(&tri_vec[i]);
 	}
 	for (unsigned int i = 0; i < sphere_vec.size(); i++) {
-		shapes.push_back(&sphere_vec[i]);
+		scene.addShape(&sphere_vec[i]);
 	}
 	for (unsigned int i = 0; i < light_vec.size(); i++) {
-		lights.push_back(&light_vec[i]);
+		scene.addLight(&light_vec[i]);
 	}
-	shapes.push_back(&plane);
-
-	// Set the scene values
-	scene.setCamera(camera);
-	scene.setLights(lights);
-	scene.setShapes(shapes);
+	scene.addShape(&plane); // Finally add our one plane
 	
 	// Build the intersect pair and iterate
 	pair<Intersection*, Geometry*> intersect;

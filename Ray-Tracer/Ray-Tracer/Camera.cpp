@@ -7,9 +7,9 @@
 Camera::Camera(vec3 pos, float fov, float focalLength, float aRatio)
 	: position(pos), fov((PI / 180.0f) * fov), focalLength(focalLength), aspectRatio(aRatio) 
 { 
-	this->updateImgDim();
+	this->updateDimensions();
 	// The x FOV is 2 * arcTan((width/2) / focalLength)
-	fov_x = 2 * std::atan((this->width / 2) / this->focalLength);
+	xFOV = 2 * std::atan((this->width / 2) / this->focalLength);
 }
 
 Camera::~Camera() { } // Destructor
@@ -17,15 +17,15 @@ Camera::~Camera() { } // Destructor
 // --- SETTERS --- //
 void Camera::setFOV(float fov) {
 	this->fov = fov;
-	this->updateImgDim(); // Now that we changed the FOV, need to update the image dimensions
+	this->updateDimensions(); // Now that we changed the FOV, need to update the image dimensions
 }
 void Camera::setAspectRatio(float aRatio) {
 	this->aspectRatio = aRatio;
-	this->updateImgDim(); // Now that we changed the aspect ratio, need to update the image dimensions
+	this->updateDimensions(); // Now that we changed the aspect ratio, need to update the image dimensions
 }
 void Camera::setFocalLength(float focal) {
 	this->focalLength = focal;
-	this->updateImgDim(); // Now that we changed the focal length, need to update the image dimensions
+	this->updateDimensions(); // Now that we changed the focal length, need to update the image dimensions
 }
 void Camera::setPos(vec3 pos)				{ this->position	= pos;		}
 void Camera::setWidth(float width)			{ this->width		= width;	}
@@ -41,7 +41,7 @@ float Camera::getHeight()		const { return this->height;		}
 
 // --- HELPERS --- //
 // Updates the camera image dimensions on need
-void Camera::updateImgDim() {
+void Camera::updateDimensions() {
 	// Set the height as 2fov * tan(fov/2)
 	this->height	= 2 * focalLength * std::tan(fov/2);
 	// Set the width as aspect ratio * height
@@ -85,7 +85,7 @@ vec3 Camera::getPixelCoord3D(int i, int j) {
 Rays Camera::throughPixel(int i, int j) {
 	// Compute new angles
 	float yAngle = this->fov / 2;
-	float xAngle = this->fov_x / 2;
+	float xAngle = this->xFOV / 2;
 
 	// Find new x and y coordinate values
 	float newX = this->focalLength * std::tan(xAngle) * ((j - (this->width / 2)) / (this->width / 2));

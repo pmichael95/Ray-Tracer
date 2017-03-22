@@ -33,15 +33,13 @@ void Scene::addLight(Lights *light) {
 	this->lights.push_back(light);
 }
 
-
 // Checks closest intersections from the camera to a shape and returns a pair of intersection type and a shape
 pair<Intersection*, Geometry*> Scene::closestIntersection(int i, int j) {
 	// Set up some defaults...
 	Geometry* closestShape = nullptr;
 	Intersection* closestIntersection = nullptr;
 
-	Rays ray;
-	ray = this->camera.throughPixel(i, j); // Call the camera class' throughPixel with our passed i and j (as needed in camera)
+	Rays ray = this->camera.throughPixel(i, j); // Call the camera class' throughPixel with our passed i and j (as needed in camera)
 
 	// Iterate & Create shapes for each of our current shapes
 	for (auto *shape : this->shapes) {
@@ -59,7 +57,7 @@ pair<Intersection*, Geometry*> Scene::closestIntersection(int i, int j) {
 
 	// If after all iterations we did not find a close intersection...
 	if (closestIntersection == nullptr) {
-		// Set it to not be a hit by initializing the variables to their defaults
+		// Set it to not be a hit by initializing to default empty constructor
 		closestIntersection = &Intersection();
 	}
 

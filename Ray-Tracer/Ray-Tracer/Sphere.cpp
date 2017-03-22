@@ -103,6 +103,7 @@ pair<bool, float> Sphere::intersection(Rays ray) {
 	// Discriminant = b^2 - 4c
 	float disc = b2 - 4 * c;
 
+	// Check with discriminant
 	if (disc < 0) {
 		cout << "NO INTERSECTION -- SPHERE" << endl;
 		return make_pair(false, -1); // No intersect

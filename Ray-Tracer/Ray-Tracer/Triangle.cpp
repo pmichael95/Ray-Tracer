@@ -12,10 +12,11 @@ Triangle::Triangle(vec3 v1, vec3 v2, vec3 v3, vec3 ambient, vec3 diffuse, vec3 s
 	vertices.push_back(v3);
 }
 
+// Destructor
 Triangle::~Triangle() { 
 	delete this->plane;
 	this->plane = nullptr;
-} // Default destructor
+} 
 
 // --- SETTER --- //
 void Triangle::setVertices(vector<vec3> vertices) {
@@ -64,7 +65,6 @@ pair<bool, float> Triangle::intersection(Rays ray) {
 	pair<bool, float> planeIntersect = this->plane->intersection(ray); // Get the intersection of the plane with our ray
 	float t = planeIntersect.second; // Save the float inersect t
 	vec3 intersectPoint = ray.getPoint(t); // Get the intersection point from the ray
-	bool isIntersect = false;
 
 	// If the plane intersect is true..
 	if (planeIntersect.first) {
@@ -79,19 +79,17 @@ pair<bool, float> Triangle::intersection(Rays ray) {
 			// If the area returns greater than 0
 			if (area(verts[i], verts[(i + 1) % TRIANGLE_EDGES], p) >= 0.0f) {
 				// Then we have an intersection
-				isIntersect = true;
 				cout << "FOUND INTERSECTION -- TRIANGLE" << endl;
 				return make_pair(true, t);
 			}
 			else {
-				isIntersect = false;
 				cout << "NO INTERSECTION -- TRIANGLE" << endl;
 				return make_pair(false, -1);
 			}
 		}
 	}
 
-	return make_pair(isIntersect, t);
+	return make_pair(false, t);
 }
 
 pair<vector<vec2>, vec2> Triangle::projection(vec3 &intersect_point) {

@@ -16,13 +16,16 @@ class Rays;
 
 class Camera {
 private:
+	// --- CAMERA VARIABLES --- //
 	vec3 position; // Camera pos
 	float fov; // Camera field of view
 	float aspectRatio; // Camera aspect ratio
 	float focalLength; // Camera's visible focal length
+	float xFOV; // x fov value
+
+	// --- WIDTH/HEIGHT --- //
 	float width; // Width for scene
 	float height; // Height for scene
-	float fov_x; // x fov value
 public:
 	// --- CONSTRUCTORS --- //
 	Camera() : position(vec3(0.0f)), fov(0.0f), aspectRatio(0.0f), focalLength(0.0f) { }
@@ -48,7 +51,7 @@ public:
 
 
 	// --- HELPERS --- //
-	void updateImgDim(); // Updates the image's plane dimensions based on focal length and aspect ratio
+	void updateDimensions(); // Updates the image's plane dimensions based on focal length and aspect ratio
 	vec2 getPixelCoord2D(int i, int j); // Returns the pixel coordinate as passed with x and y as a vec2 (2D space)
 	vec3 getPixelCoord3D(int i, int j); // Returns the pixel coordinate as passed with x and y as a vec3 (3D space) 
 	Rays throughPixel(int i, int j); // Compute a ray through the pixel passed by x and y as a Rays object

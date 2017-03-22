@@ -31,7 +31,7 @@ pair<bool, float> Plane::intersection(Rays ray) {
 	// Acquire necessary variables
 	float n_dot_dir = dot(this->getNormal(), ray.getDirection());
 	float n_dot_o = dot(this->getNormal(), ray.getOrigin());
-	float d = -(dot(this->getPos(), this->getNormal()));
+	float neg_pos_dot_n = -(dot(this->getPos(), this->getNormal()));
 
 	// Check to see if there is an intersection
 	if (n_dot_dir == 0.0f) {
@@ -40,6 +40,6 @@ pair<bool, float> Plane::intersection(Rays ray) {
 	}
 	else {
 		cout << "FOUND INTERSECTION -- PLANE" << endl;
-		return make_pair(true, -((n_dot_o + d) / n_dot_dir));
+		return make_pair(true, -((n_dot_o + neg_pos_dot_n) / n_dot_dir));
 	}
 }

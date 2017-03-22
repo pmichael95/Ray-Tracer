@@ -33,7 +33,7 @@ public:
 	vec3 getDiffuse() const;
 	vec3 getSpecular() const;
 	float getShininess() const;
-	virtual string getType() const =0;
+	virtual string getType() const =0; // To acquire strings representing type of shape, for debugging
 
 	// --- HELPERS --- //
 	virtual pair<bool, float> intersection(Rays ray) = 0; // Pure virtual method to be implemented in derived classes
