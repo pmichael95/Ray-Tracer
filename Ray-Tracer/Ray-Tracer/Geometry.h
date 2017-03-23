@@ -6,6 +6,7 @@
 #define GEOMETRY_H
 #include "CommonIncludes.h"
 #include "Rays.h"
+#include "Lights.h"
 
 class Geometry {
 protected:
@@ -39,6 +40,7 @@ public:
 	virtual pair<bool, float> intersection(Rays ray) = 0; // Pure virtual method to be implemented in derived classes
 														// Represents an intersection that will return a bool for true if it intersected
 														// And a float value for the distance with the passed ray
+	virtual vec3 phong(vec3 q, Lights* light) = 0; // Phong lighting system calculations by each derivative shape
 };
 
 #endif

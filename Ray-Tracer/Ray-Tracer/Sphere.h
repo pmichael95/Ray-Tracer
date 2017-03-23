@@ -30,6 +30,7 @@ public:
 	// checks for ray-sphere intersection by passing a ray
 	// Returns bool for if it does intersect, and a float distance from COP to the plane of the sphere
 	virtual pair<bool, float> intersection(Rays ray);
+	virtual vec3 phong(vec3 q, Lights* light);
 };
 
 #endif

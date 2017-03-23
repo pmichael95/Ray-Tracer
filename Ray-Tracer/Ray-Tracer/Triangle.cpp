@@ -79,11 +79,11 @@ pair<bool, float> Triangle::intersection(Rays ray) {
 			// If the area returns greater than 0
 			if (area(verts[i], verts[(i + 1) % TRIANGLE_EDGES], p) >= 0.0f) {
 				// Then we have an intersection
-				cout << "FOUND INTERSECTION -- TRIANGLE" << endl;
+				//cout << "FOUND INTERSECTION -- TRIANGLE" << endl;
 				return make_pair(true, t);
 			}
 			else {
-				cout << "NO INTERSECTION -- TRIANGLE" << endl;
+				//cout << "NO INTERSECTION -- TRIANGLE" << endl;
 				return make_pair(false, -1);
 			}
 		}
@@ -143,4 +143,10 @@ float Triangle::area(vec2 p1, vec2 p2, vec2 p3) {
 
 	return ((-ay*bx + ax*by + ay*cx - by*cx - ax*cy + bx*cy)/2);
 	//return 0.5 * ((p2.x - p1.x) * (p3.y - p1.y) - (p3.x - p1.x) * (p2.y - p1.y));
+}
+
+// Triangle's phong lighting implementation
+vec3 Triangle::phong(vec3 q, Lights* light) {
+	// Call plane's phong method to calculate the triangle's
+	return this->plane->phong(q, light);
 }

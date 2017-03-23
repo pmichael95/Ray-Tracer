@@ -28,8 +28,12 @@ void Camera::setFocalLength(float focal) {
 	this->updateDimensions(); // Now that we changed the focal length, need to update the image dimensions
 }
 void Camera::setPos(vec3 pos)				{ this->position	= pos;		}
-void Camera::setWidth(float width)			{ this->width		= width;	}
-void Camera::setHeight(float height)		{ this->height		= height;	}
+void Camera::setWidth(float width) { 
+	this->width	= width;
+}
+void Camera::setHeight(float height) { 
+	this->height = height;
+}
 
 // --- GETTERS --- //
 vec3 Camera::getPosition()		const { return this->position;		}
@@ -43,7 +47,7 @@ float Camera::getHeight()		const { return this->height;		}
 // Updates the camera image dimensions on need
 void Camera::updateDimensions() {
 	// Set the height as 2fov * tan(fov/2)
-	this->height	= 2 * focalLength * std::tan(fov/2);
+	this->height	= 2 * focalLength * std::tan((fov/2));
 	// Set the width as aspect ratio * height
 	this->width		= aspectRatio * this->height;
 }

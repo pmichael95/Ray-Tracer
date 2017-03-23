@@ -34,6 +34,7 @@ public:
 	virtual pair<bool, float> intersection(Rays ray); // The triangle's intersection case
 	pair<vector<vec2>, vec2> projection(vec3 &intersect_point); // A projection of the triangle in 2D
 	float area(vec2 p1, vec2 p2, vec2 p3);
+	virtual vec3 phong(vec3 q, Lights* light);
 
 	static const int TRIANGLE_EDGES = 3;
 };

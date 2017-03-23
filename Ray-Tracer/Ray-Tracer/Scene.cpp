@@ -110,3 +110,53 @@ pair<Intersection*, Geometry*> Scene::closestIntersection(int i, int j) {
 		return make_pair(closestIntersect, intersectShape);
 	}
 }*/
+
+// Begin acquiring the color for every intersected shape
+vec3 Scene::trace_color(pair<Intersection*, Geometry*> intersect, int i, int j) {
+	// If we didn't acquire a shape through the intersection, return black
+	if (intersect.second == nullptr)
+		return vec3(0.0f);
+	else {
+		// Otherwise, begin computing the phong colors
+		return this->getColor(vec3(0.0f), intersect, i, j);
+	}
+}
+
+// Acquire the colors by iterating through each light and calling the respective shape's phong implementation
+vec3 Scene::getColor(vec3 q, pair<Intersection*, Geometry*> intersect, int i, int j) {
+	vec3 color = intersect.second->getAmbient(); // Acquire ambient color first
+	// Go through each light in our lights vector object
+	for (Lights *light : lights) {
+		// Get the ray's direction which is the light's position - our q vector (0.0f by default)
+		vec3 rayDir = light->getPosition() - q; // Get light position relative to passed q vector
+
+		// Acquire the surface point by adding the q vector to the ray's direction as a float
+		vec3 surfacePoint = q + rayDir * 0.001f; // Convert to float to get our surface's point
+
+		// Build a new ray that starts from our object's surface point and with the direction that we just computed
+		Rays ray = Rays(surfacePoint, rayDir);
+
+		// Compute the phong light
+		if (intersect.first == nullptr) {
+			// Add the phong lighting color to our existing ambient light that was in the color vector
+			color += intersect.second->phong(q, this->lights[j]);
+		}
+	}
+	
+	// Clamp the colors strictly to 1 or 0 if they exceed or are less than 1 and 0
+	if (color.r > 1.0f) 
+		color.r = 1.0f;
+	if (color.r < 0.0f) 
+		color.r = 0.0f;
+	if (color.g > 1.0f) 
+		color.g = 1.0f;
+	if (color.g < 0.0f) 
+		color.g = 0.0f;
+	if (color.b > 1.0f) 
+		color.b = 1.0f;
+	if (color.b < 0.0f) 
+		color.b = 0.0f;
+	
+	// Finally return our color
+	return color;
+}

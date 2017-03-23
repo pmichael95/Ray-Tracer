@@ -105,11 +105,11 @@ pair<bool, float> Sphere::intersection(Rays ray) {
 
 	// Check with discriminant
 	if (disc < 0) {
-		cout << "NO INTERSECTION -- SPHERE" << endl;
+		//cout << "NO INTERSECTION -- SPHERE -> case disc < 0.0f" << endl;
 		return make_pair(false, -1); // No intersect
 	}
 	else if (disc == 0.0f) {
-		cout << "FOUND INTERSECTION -- SPHERE -> case disc == 0.0f" << endl;
+		//cout << "FOUND INTERSECTION -- SPHERE -> case disc == 0.0f" << endl;
 		return make_pair(true, -b / 2);
 	}
 	else {
@@ -118,17 +118,40 @@ pair<bool, float> Sphere::intersection(Rays ray) {
 
 		// If t1 is strictly less than 0, give back t2
 		if (t1 < 0) {
-			cout << "FOUND INTERSECTION -- SPHERE -> case t1 < 0" << endl;
+			//cout << "FOUND INTERSECTION -- SPHERE -> case t1 < 0" << endl;
 			return make_pair(true, t2);
 		}
 		// If t2 is strictly less than 0, give back t1
 		else if (t2 < 0) {
-			cout << "FOUND INTERSECTION -- SPHERE -> case t2 < 0" << endl;
+			//cout << "FOUND INTERSECTION -- SPHERE -> case t2 < 0" << endl;
 			return make_pair(true, t1);
 		}
 		else {
-			cout << "FOUND INTERSECTION -- SPHERE -> case min(t1, t2)" << endl;
+			//cout << "FOUND INTERSECTION -- SPHERE -> case min(t1, t2)" << endl;
 			return make_pair(true, std::min(t1, t2)); // The case we want: return the minimum of the two
 		}
 	}
+}
+
+// Phong light implementation for sphere
+vec3 Sphere::phong(vec3 q, Lights* light) {
+	// Get the light position
+	vec3 l = light->getPosition() - q;
+	// K differential 
+	float Kd = 0.5f;
+	// L.N
+	float l_dot_n = std::max(dot(l, normalize(q - this->getCenter())), 0.0f);
+	// d is length of L
+	float d = length(l);
+	// Get the attenuation factor
+	float attenDenom = pow(((d / this->getRadius()) + 1), 2);
+	float atten = 1 / attenDenom;
+
+	// Set up RGB
+	float r = atten * Kd * l_dot_n * (light->getColor().r + this->getDiffuse().r);
+	float g = atten * Kd * l_dot_n * (light->getColor().g + this->getDiffuse().g);
+	float b = atten * Kd * l_dot_n * (light->getColor().b + this->getDiffuse().b);
+
+	// Return the color vector, (light color + diffuse color) * L.N * attenuation
+	return vec3((light->getColor() + this->getDiffuse()) * l_dot_n * atten);
 }

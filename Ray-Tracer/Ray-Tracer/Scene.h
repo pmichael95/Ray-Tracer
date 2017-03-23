@@ -36,6 +36,8 @@ public:
 	void addShape(Geometry* shape);
 	void addLight(Lights* light);
 	pair<Intersection*, Geometry*> closestIntersection(int i, int j);
+	vec3 trace_color(pair<Intersection*, Geometry*> intersect, int i, int j);
+	vec3 getColor(vec3 q, pair<Intersection*, Geometry*> intersect, int i, int j);
 };
 
 #endif

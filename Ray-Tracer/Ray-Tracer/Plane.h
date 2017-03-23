@@ -31,6 +31,7 @@ public:
 	// --- HELPERS --- //
 	virtual pair<bool, float> intersection(Rays ray);
 	virtual string getType() const { return "Plane"; }
+	virtual vec3 phong(vec3 q, Lights* light);
 };
 
 #endif
