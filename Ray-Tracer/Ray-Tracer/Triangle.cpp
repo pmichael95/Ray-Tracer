@@ -60,41 +60,6 @@ void Triangle::setVertex(int index, vec3 vertex) {
 		this->vertices[index] = vertex;
 }
 
-/*
-pair<bool, float> Triangle::intersection(Rays ray) {
-	this->plane = this->getPlane(); // Construct plane to get the intersection
-	pair<bool, float> planeIntersect = this->plane->intersection(ray); // Get the intersection of the plane with our ray
-	float t = planeIntersect.second; // Save the float inersect t
-	vec3 intersectPoint = ray.getPoint(t); // Get the intersection point from the ray
-
-	// If the plane intersect is true..
-	if (planeIntersect.first) {
-		// Get a projection in 2D
-		pair<vector<vec2>, vec2> proj = projection(intersectPoint);
-		// Extract the vertices
-		vector<vec2> verts = proj.first;
-		// Extract the intersection's projection in 2D
-		vec2 p = proj.second;
-
-		for (int i = 0; i < TRIANGLE_EDGES; i++) {
-			// If the area returns greater than 0
-			if (area(verts[i], verts[(i + 1) % TRIANGLE_EDGES], p) >= 0.0f) {
-				// Then we have an intersection
-				//cout << "FOUND INTERSECTION -- TRIANGLE" << endl;
-				return make_pair(true, t);
-			}
-			else {
-				//cout << "NO INTERSECTION -- TRIANGLE" << endl;
-				return make_pair(false, -1);
-			}
-		}
-	}
-
-	return make_pair(false, t);
-}
-*/
-
-
 // TRIANGLE INTERSECTION CASE
 // Source from: https://www.scratchapixel.com/lessons/3d-basic-rendering/ray-tracing-rendering-a-triangle
 pair<bool, float> Triangle::intersection(Rays ray) {

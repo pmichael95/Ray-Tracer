@@ -40,10 +40,6 @@ void Scene::addLight(Lights *light) {
 
 // Trace a ray for the colors
 vec3 Scene::trace_color(Rays &ray, int d) {
-	// Return background colour if we've recurred d_max times
-	//if (d > 100)
-		//return vec3(0.0f); // Default to stop recursion - NOT NECESSARY ANYMORE
-
 	// Check for the closest intersection
 	Geometry* intersectingObject = closestIntersection(ray, q); // Cast ray to q, the surface point
 
