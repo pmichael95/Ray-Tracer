@@ -52,8 +52,6 @@ public:
 
 	// --- HELPERS --- //
 	void updateDimensions(); // Updates the image's plane dimensions based on focal length and aspect ratio
-	vec2 getPixelCoord2D(int i, int j); // Returns the pixel coordinate as passed with x and y as a vec2 (2D space)
-	vec3 getPixelCoord3D(int i, int j); // Returns the pixel coordinate as passed with x and y as a vec3 (3D space) 
 	Rays throughPixel(int i, int j); // Compute a ray through the pixel passed by x and y as a Rays object
 };
 

@@ -19,10 +19,15 @@ void Scene::setLights(vector<Lights*> lights) {
 	this->lights = lights;
 }
 
+void Scene::setQ(vec3 q) {
+	this->q = q;
+}
+
 // --- GETTERS --- //
 Camera Scene::getCamera()			 const { return this->camera; }
 vector<Geometry*> Scene::getShapes() const { return this->shapes; }
 vector<Lights*> Scene::getLights()	 const { return this->lights; }
+vec3 Scene::getQ()					 const { return this->q; }
 
 // --- HELPERS --- //
 void Scene::addShape(Geometry *shape) {
@@ -33,130 +38,90 @@ void Scene::addLight(Lights *light) {
 	this->lights.push_back(light);
 }
 
-// Checks closest intersections from the camera to a shape and returns a pair of intersection type and a shape
-pair<Intersection*, Geometry*> Scene::closestIntersection(int i, int j) {
-	// Set up some defaults...
-	Geometry* closestShape = nullptr;
-	Intersection* closestIntersection = nullptr;
+// Trace a ray for the colors
+vec3 Scene::trace_color(Rays &ray, int d) {
+	// Return background colour if we've recurred d_max times
+	//if (d > 100)
+		//return vec3(0.0f); // Default to stop recursion - NOT NECESSARY ANYMORE
 
-	Rays ray = this->camera.throughPixel(i, j); // Call the camera class' throughPixel with our passed i and j (as needed in camera)
+	// Check for the closest intersection
+	Geometry* intersectingObject = closestIntersection(ray, q); // Cast ray to q, the surface point
 
-	// Iterate & Create shapes for each of our current shapes
-	for (auto *shape : this->shapes) {
-		Intersection intersect(ray, *shape); // Check intersection
+	// If we didn't get an intersection
+	if (intersectingObject == nullptr) 
+		return vec3(0.0f); // Empty color black
 
-		// If our intersect is a hit and we haven't found a closest intersection
-		// OR or current intersect's distance is strictly LESS than our closest intersection's distance...
-		if (intersect.isHit() && (closestIntersection == nullptr || intersect.getDistance() < closestIntersection->getDistance())) {
-			// Set our closest intersection to be our intersect that was created with the ray and the current shape
-			closestIntersection = &intersect; 
-			// Then set the closest shape to be the current shape through iteration
-			closestShape = shape;
-		}
-	}
-
-	// If after all iterations we did not find a close intersection...
-	if (closestIntersection == nullptr) {
-		// Set it to not be a hit by initializing to default empty constructor
-		closestIntersection = &Intersection();
-	}
-
-	// At the end, return a struct pair of the closest intersect and its closest shape
-	return make_pair(closestIntersection, closestShape);
+	// Return the color returned from getColor helper function
+	return getColor(q, intersectingObject);
 }
 
+// Returns the surface point of the closest intersection
+Geometry* Scene::closestIntersection(Rays& ray, vec3& q) {
+	float t = -1; // Initialize to < 0 for conditions
+	Geometry* intersectShape = nullptr; // By default, null (no intersected shape)
 
-/* ///////// WORK IN PROGRESS, WOULD NEED IF SHIFTED AWAY FROM PAIRS & WILL NEED FOR COLOR
-// Checks closest intersections from the camera to a shape and returns a pair of intersection type and a shape
-pair<Intersection*, Geometry*> Scene::closestIntersection(int i, int j) {
-	float t = -1.0f;
-	Geometry* intersectShape = nullptr;
-	Rays ray = this->camera.throughPixel(i, j);
-	Intersection* intersect = nullptr;
-	Intersection* closestIntersect = nullptr;
+	// Loop through every shape in our shapes vector
+	for (Geometry* shape : this->shapes) {
+		// Get the distance from the intersection
+		float temp = shape->intersection(ray).second;
 
-	// Iterate through the shapes 
-	for (auto *shape : this->shapes) {
-		intersect = new Intersection(ray, *shape);
-
-		float t_temp = shape->intersection(ray).second;
-
-		if (t < 0 && t_temp > 0) {
-			t = t_temp;
-			// Pointer assignment for our intersecting shape to the current shape 
+		// If our current distance is < 0 and the returned distance is > 0
+		if (t < 0 && temp > 0) {
+			// Set the intersect shape to this one
 			intersectShape = shape;
-			closestIntersect = intersect;
+			// Set the current distance to the returned one
+			t = temp;
 		}
-		else if (t > 0 && t_temp > 0 && t_temp < t) {
-			t = t_temp;
+		// Otherwise, if our current distance & returned distance > 0 but current distance > returned distance
+		else if (t > 0 && temp > 0 && temp < t) {
+			// Set the intersected shape to be the current one
 			intersectShape = shape;
-			closestIntersect = intersect;
+			// And set the current distance to the returned one
+			t = temp;
 		}
-		else {
-			closestIntersect = &Intersection();
-		}
-	}
+	} // End loop
 
-	if (t > 0) {
-		vec3 q = ray.getPoint(t); // Get the 'q' value for color, later
-	}
+	// If we ended up with a distance (not the default -1)
+	if (t > 0)
+		q = ray.getPoint(t); // Get the point from the ray's hit
 
-	if (intersectShape != nullptr && closestIntersect != nullptr) {
-		cout << "FOUND INTERSECTION -- SCENE" << endl;
-		return make_pair(closestIntersect, intersectShape);
-	}
-	else {
-		cout << "NO INTERSECTION -- SCENE" << endl;
-		return make_pair(closestIntersect, intersectShape);
-	}
-}*/
-
-// Begin acquiring the color for every intersected shape
-vec3 Scene::trace_color(pair<Intersection*, Geometry*> intersect, int i, int j) {
-	// If we didn't acquire a shape through the intersection, return black
-	if (intersect.second == nullptr)
-		return vec3(0.0f);
-	else {
-		// Otherwise, begin computing the phong colors
-		return this->getColor(vec3(0.0f), intersect, i, j);
-	}
+	// Finally return the intersected shape (if any)
+	return intersectShape;
 }
 
-// Acquire the colors by iterating through each light and calling the respective shape's phong implementation
-vec3 Scene::getColor(vec3 q, pair<Intersection*, Geometry*> intersect, int i, int j) {
-	vec3 color = intersect.second->getAmbient(); // Acquire ambient color first
-	// Go through each light in our lights vector object
-	for (Lights *light : lights) {
-		// Get the ray's direction which is the light's position - our q vector (0.0f by default)
-		vec3 rayDir = light->getPosition() - q; // Get light position relative to passed q vector
+// Returns a vec3 color based on shape and lights
+vec3 Scene::getColor(vec3 q, Geometry* shape) {
+	// Acquire the ambient color first
+	vec3 color = shape->getAmbient();
+	// Go through every light in our lights vector
+	for (Lights *light : this->lights) {
+		// Get the ray direction based off the light's position and the q
+		vec3 direction = light->getPosition() - q;
+		// Get a point on the shape
+		vec3 point = q + direction;
+		// Build a ray object relative to the surface's point and with the established direction
+		Rays ray = Rays(point, direction);
 
-		// Acquire the surface point by adding the q vector to the ray's direction as a float
-		vec3 surfacePoint = q + rayDir * 0.001f; // Convert to float to get our surface's point
-
-		// Build a new ray that starts from our object's surface point and with the direction that we just computed
-		Rays ray = Rays(surfacePoint, rayDir);
-
-		// Compute the phong light
-		if (intersect.first == nullptr) {
-			// Add the phong lighting color to our existing ambient light that was in the color vector
-			color += intersect.second->phong(q, this->lights[j]);
-		}
+		// If we didn't intersect...
+		if (closestIntersection(ray, vec3(0)) == nullptr)
+			// Find the color with the shape's respective phong function
+			color += shape->phong(q, light);
 	}
-	
-	// Clamp the colors strictly to 1 or 0 if they exceed or are less than 1 and 0
-	if (color.r > 1.0f) 
-		color.r = 1.0f;
-	if (color.r < 0.0f) 
-		color.r = 0.0f;
-	if (color.g > 1.0f) 
-		color.g = 1.0f;
-	if (color.g < 0.0f) 
-		color.g = 0.0f;
-	if (color.b > 1.0f) 
-		color.b = 1.0f;
-	if (color.b < 0.0f) 
-		color.b = 0.0f;
-	
-	// Finally return our color
+
+	// --- STANDARDIZE THE COLORS! Anything > 1 -> 1, anything < 0 -> 0
+	if (color.r > 1.0) 
+		color.r = 1.0;
+	if (color.r < 0.0) 
+		color.r = 0.0;
+	if (color.g > 1.0) 
+		color.g = 1.0;
+	if (color.g < 0.0) 
+		color.g = 0.0;
+	if (color.b > 1.0) 
+		color.b = 1.0;
+	if (color.b < 0.0) 
+		color.b = 0.0;
+
+	// Return final color
 	return color;
 }

@@ -26,7 +26,6 @@ public:
 	// --- GETTER --- //
 	vector<vec3> getVertices() const;
 	Plane* getPlane();
-	virtual string getType() const { return "Triangle"; }
 
 	// --- HELPERS --- //
 	vec3 getVertex(int index); // Returns a vec3 vertex based on passed index

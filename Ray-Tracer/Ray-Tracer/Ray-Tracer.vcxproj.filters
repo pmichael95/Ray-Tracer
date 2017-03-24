@@ -60,11 +60,11 @@
     <ClCompile Include="Intersection.cpp">
       <Filter>Source Files\Helpers</Filter>
     </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>Source Files\Fundamentals</Filter>
-    </ClCompile>
     <ClCompile Include="Plane.cpp">
       <Filter>Source Files\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Source Files\Fundamentals</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -95,11 +95,11 @@
     <ClInclude Include="Intersection.h">
       <Filter>Header Files\Helpers</Filter>
     </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Header Files\Fundamentals</Filter>
-    </ClInclude>
     <ClInclude Include="Plane.h">
       <Filter>Header Files\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Header Files\Fundamentals</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

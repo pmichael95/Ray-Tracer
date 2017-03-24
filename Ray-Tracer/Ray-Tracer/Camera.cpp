@@ -52,39 +52,6 @@ void Camera::updateDimensions() {
 	this->width		= aspectRatio * this->height;
 }
 
-////////////
-// --- PENDING TO BE REMOVED IF NOT NEEDED --- //
-// Return a 2D pixel coordinate
-vec2 Camera::getPixelCoord2D(int i, int j) {
-	// First need to make sure it's within the bounds
-	// x and y both need to be greater than or equal to 0 
-	// They also need to be strictly less than our maximum x and y dimensions (width and height)
-	if ((i >= 0 && i < this->width) && (j >= 0 && j < this->height)) {
-		// Then recalculate
-		float newX = this->width  * (static_cast<float>(i) / this->width); // Our new x is the width  * (x/max x size)
-		float newY = this->height * (static_cast<float>(j) / this->height); // Our new y is the height * (y/max y size)
-		return vec2(newX, newY); // Return the result as a 2D coordinate (x,y)
-	}
-	else
-		cerr << "ERROR::POORLY_PROVIDED_X_AND_Y_VALUES" << endl;
-
-	// Default return (not reached if we provided correct x/y values
-	return vec2(0.0f);
-}
-
-// Return a 3D pixel coordinate
-vec3 Camera::getPixelCoord3D(int i, int j) {
-	// To get a 3D coordinate for a pixel, we first get its 2D coordinate (x, y)
-	// Then, the Z is -Focal Length
-	vec3 coord3D = vec3(this->getPixelCoord2D(i, j), -this->focalLength);
-
-	// Finally, we need to use the camera's position and add it to the result to get
-	// a relative 3D coordinate (vec3)
-	return this->position + coord3D;
-}
-
-///////////////////////////////////////////////////////////////////
-
 // Calculate a ray through the pixel in world coordinates
 Rays Camera::throughPixel(int i, int j) {
 	// Compute new angles

@@ -60,6 +60,7 @@ void Triangle::setVertex(int index, vec3 vertex) {
 		this->vertices[index] = vertex;
 }
 
+/*
 pair<bool, float> Triangle::intersection(Rays ray) {
 	this->plane = this->getPlane(); // Construct plane to get the intersection
 	pair<bool, float> planeIntersect = this->plane->intersection(ray); // Get the intersection of the plane with our ray
@@ -91,7 +92,85 @@ pair<bool, float> Triangle::intersection(Rays ray) {
 
 	return make_pair(false, t);
 }
+*/
 
+
+// TRIANGLE INTERSECTION CASE
+// Source from: https://www.scratchapixel.com/lessons/3d-basic-rendering/ray-tracing-rendering-a-triangle
+pair<bool, float> Triangle::intersection(Rays ray) {
+	this->plane = this->getPlane(); // Construct plane to get the intersection
+	const float kEpsilon = 1e-8; // Essentially close to 0
+	vec3 n = normalize(this->plane->getNormal()); // Get the plane's normal
+	vec3 dir = ray.getDirection(); // Get the ray direction
+
+	// Get each vertex
+	vec3 v0 = this->getVertex(0);
+	vec3 v1 = this->getVertex(1);
+	vec3 v2 = this->getVertex(2);
+
+	// Create a denomenator by dot(n, n)
+	float denom = dot(n, n);
+
+	// Step 1:
+	// Check if ray and plane are ||
+	float n_dot_dir = dot(n, dir);
+	if (abs(n_dot_dir) < kEpsilon) {
+		return make_pair(false, -1);
+	}
+
+	// Compute d parameter using equation 2
+	float d = dot(n, v0);
+
+	// Compute t using equation 3
+	float n_dot_orig = dot(n, ray.getOrigin());
+	float t = (n_dot_orig + d) / n_dot_dir;
+
+	// Check if triangle is behind ray
+	if (t < 0)
+		return make_pair(false, -1);
+
+	// Compute the intersection point using equation 1
+	vec3 p = ray.getPoint(t);
+
+	// Inside-outside test
+	vec3 c;
+
+	// Edge #0
+	vec3 edge0 = v1 - v0;
+	vec3 vp0 = p - v0;
+	c = cross(edge0, vp0);
+	if (dot(n, c) < 0)
+		return make_pair(false, -1);
+
+	// Edge 1
+	vec3 edge1 = v2 - v1;
+	vec3 vp1 = p - v1;
+	c = cross(edge1, vp1);
+	float u = dot(n, c);
+	if (u < 0)
+		return make_pair(false, -1);
+
+	// Edge 2
+	vec3 edge2 = v0 - v2;
+	vec3 vp2 = p - v2;
+	c = cross(edge2, vp2);
+	float v = dot(n, c);
+	if (v < 0)
+		return make_pair(false, -1);
+
+	u /= denom;
+	v /= denom;
+
+	// Get the intersection of the plane with our ray
+	pair<bool, float> planeIntersect = this->plane->intersection(ray); 
+	// Save the float inersect to t to return it
+	t = planeIntersect.second;
+
+	// Return a pair with our t value
+	return make_pair(true, t);
+}
+
+// -- MAY BE NEEDED LATER. Triangle 2D projection.
 pair<vector<vec2>, vec2> Triangle::projection(vec3 &intersect_point) {
 	// Set up necessary variables
 	vector<vec2> vertexProj;
@@ -127,13 +206,13 @@ pair<vector<vec2>, vec2> Triangle::projection(vec3 &intersect_point) {
 	return make_pair(vertexProj, intersectProj);
 }
 
-// Calculates the area of the triangle.
+// Calculates the area of the triangle. -- MAY BE NEEDED LATER
 // Need to handle x/y values since vec2s
 /* FORMULA:
-A(T) = 1/2 * (-aybx + axby + aycx - bycx - axcy + bxcy)
+A(T) = 1/2 * [ (bx - ax) * (cy - ay) * (cx - ax) * (by - ay) ]
 */
 float Triangle::area(vec2 p1, vec2 p2, vec2 p3) {
-	
+	// For easier handling...
 	float ax = p1.x;
 	float ay = p1.y;
 	float bx = p2.x;
@@ -141,12 +220,21 @@ float Triangle::area(vec2 p1, vec2 p2, vec2 p3) {
 	float cx = p3.x;
 	float cy = p3.y;
 
-	return ((-ay*bx + ax*by + ay*cx - by*cx - ax*cy + bx*cy)/2);
-	//return 0.5 * ((p2.x - p1.x) * (p3.y - p1.y) - (p3.x - p1.x) * (p2.y - p1.y));
+	// Return with formula as stated above
+	return ((bx - ax) * (cy - ay) - (cx - ax) * (by - ay)) / 2;
 }
 
 // Triangle's phong lighting implementation
 vec3 Triangle::phong(vec3 q, Lights* light) {
 	// Call plane's phong method to calculate the triangle's
-	return this->plane->phong(q, light);
+	vec3 l = light->getPosition() - q;
+	float l_dot_n = std::max(dot(l, normalize(plane->getNormal())), 0.0f);
+	float d = length(l);
+
+	float attenDenom = 1 + 0.2f * d + pow(d, 2);
+	float atten = 1 / attenDenom;
+
+	vec3 diffuse = this->getDiffuse();
+
+	return (light->getColor() + diffuse) * l_dot_n * atten;
 }

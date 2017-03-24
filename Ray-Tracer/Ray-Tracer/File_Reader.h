@@ -67,11 +67,7 @@ void read_file(const char* fpath, vector<Triangle> &triangle, vector<Sphere> &sp
 				input >> aRatio;
 
 				// --- BUILD CAMERA --- //
-				camera.setPos(pos);
-				camera.setFOV(fov);
-				camera.setFocalLength(focal);
-				camera.setAspectRatio(aRatio);
-
+				camera = Camera(pos, fov, focal, aRatio);
 				// --- END CAMERA --- //
 			}
 			// --- BEGIN PLANE --- //

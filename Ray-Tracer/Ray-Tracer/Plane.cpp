@@ -54,8 +54,7 @@ vec3 Plane::phong(vec3 q, Lights* light) {
 	float d2 = pow(d, 2);
 
 	// Set the attenuation factor
-	float atten_denom = 1 + 0.2f * d + d2;
-	float atten = 1 / atten_denom;
+	float atten = 1 / (1 + 0.2f * d + d2);
 
 	// Return (light color + diffuse color) * L.N * attenuation -> color vector!
 	return (light->getColor() + this->getDiffuse()) * l_dot_n * atten;
