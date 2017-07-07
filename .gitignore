@@ -52,3 +52,8 @@ Temporary Items
 *.db
 Ray-Tracer/Ray-Tracer.VC.db
 *.db
+Ray-Tracer/Debug
+Debug
+*.suo
+Ray-Tracer/render.bmp
+Ray-Tracer.VC.db
